@@ -22,7 +22,21 @@ class Entry
     public function __construct(string $dn, array $attributes = array())
     {
         $this->dn = $dn;
-        $this->attributes = $attributes;
+        $this->attributes = $this->resetValuesIndex($attributes);
+    }
+
+    /**
+     * Resets the index for array values.
+     *
+     * @param array $attributes
+     *
+     * @return array
+     */
+    private function resetValuesIndex(array $attributes)
+    {
+        return array_map(function ($v) {
+            return array_values($v);
+        }, $attributes);
     }
 
     /**
@@ -80,7 +94,7 @@ class Entry
      */
     public function setAttribute($name, array $value)
     {
-        $this->attributes[$name] = $value;
+        $this->attributes[$name] = array_values($value);
     }
 
     /**
